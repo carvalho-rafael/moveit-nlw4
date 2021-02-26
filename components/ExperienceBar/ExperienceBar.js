@@ -1,8 +1,8 @@
-import Style from './style.module.css'
+import Style from './style.module.scss'
 
 export default function ExperienceBar() {
     return (
-        <header className={Style.ExperienceBar}>
+        <header className={Style.experienceBar}>
             <span>0 px</span>
             <div>
                 <div style={{ width: '60%' }}></div>
