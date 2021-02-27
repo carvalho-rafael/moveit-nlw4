@@ -1,9 +1,14 @@
+import { useContext } from 'react';
+import { ChallengesContext } from '../contexts/ChallengesContext';
+
 import { useEffect, useState } from 'react'
 import styles from '../styles/components/Countdown.module.scss'
 
 let countdownTimeout: NodeJS.Timeout;
 
 export default function Countdown() {
+    const { startNewChallenge } = useContext(ChallengesContext);
+
     const [time, setTime] = useState(0.05 * 60);
     const [active, setActive] = useState(false);
     const [hasFinished, setHasFinished] = useState(false);
@@ -32,6 +37,7 @@ export default function Countdown() {
         } else if (active && time == 0) {
             setHasFinished(true);
             setActive(false);
+            startNewChallenge();
         }
     }, [active, time])
 
@@ -54,7 +60,7 @@ export default function Countdown() {
                     className={styles.finishedCountdownBtn}
                 >
                     Ciclo Encerrado
-                    <img src="icons/ok.svg" alt="ok"/>
+                    <img src="icons/ok.svg" alt="ok" />
                 </button>
             ) : (
                     <>
