@@ -54,6 +54,7 @@ export default function Countdown() {
                     className={styles.finishedCountdownBtn}
                 >
                     Ciclo Encerrado
+                    <img src="icons/ok.svg" alt="ok"/>
                 </button>
             ) : (
                     <>

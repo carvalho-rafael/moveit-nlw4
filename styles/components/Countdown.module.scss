@@ -61,14 +61,20 @@
 }
 .stopCountdownBtn {
     @include countdownBtn;
-    background: white;
-    color: $text-color;
+    background: red;
     &:hover {
-        background: darkgray;
+        background: darkred;
         transition:  background-color .2s;
     }    
 }
 .finishedCountdownBtn {
     @include countdownBtn;
-    background: gray;
+    background: white;
+    color: $text-color;
+
+    border-bottom: green 2px solid;
+    img {
+        width: 2rem;
+        margin-left: 1rem;
+    }
 }
