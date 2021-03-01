@@ -1,4 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+
 import challenges from '../challenges.json';
 
 interface Challenge {
@@ -8,7 +10,7 @@ interface Challenge {
 }
 interface ChallengesContextData {
     level: number,
-    currentExpirience: number,
+    currentExperience: number,
     challengesCompleted: number,
     activeChallenge: Challenge,
     expirienceToNextLevel: number,
@@ -20,14 +22,17 @@ interface ChallengesContextData {
 
 interface ChallengesProviderProps {
     children: ReactNode;
+    level: number,
+    currentExperience: number,
+    challengesCompleted: number
 }
 
 export const ChallengesContext = createContext({} as ChallengesContextData);
 
-export function ChallengesProvider({ children }: ChallengesProviderProps) {
-    const [level, setLevel] = useState(1);
-    const [currentExpirience, setCurrentExpirience] = useState(0);
-    const [challengesCompleted, setChallengesCompleted] = useState(0);
+export function ChallengesProvider({ children, ...rest }: ChallengesProviderProps) {
+    const [level, setLevel] = useState(rest.level ?? 1);
+    const [currentExperience, setCurrentExperience] = useState(rest.currentExperience ?? 0);
+    const [challengesCompleted, setChallengesCompleted] = useState(rest.challengesCompleted ?? 0);
     const [activeChallenge, setActiveChallenge] = useState<Challenge>(null);
 
     const expirienceToNextLevel = Math.pow((level + 1) * 4, 2);
@@ -35,6 +40,15 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
     useEffect(() => {
         Notification.requestPermission();
     }, [])
+
+    useEffect(() => {
+        Cookies.set('level', String(level));
+        Cookies.set('currentExperience', String(currentExperience));
+        Cookies.set('challengesCompleted', String(challengesCompleted));
+
+    }, [level, currentExperience, challengesCompleted])
+
+
     function levelUp() {
         setLevel(level + 1);
     }
@@ -45,7 +59,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 
         setActiveChallenge(challenge);
 
-        if(Notification.permission === 'granted') {
+        if (Notification.permission === 'granted') {
             new Notification('Novo desafio :)', {
                 body: `Valendo ${challenge.amount}xp`
             })
@@ -65,13 +79,13 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 
         const { amount } = activeChallenge;
 
-        let finalExperience = currentExpirience + amount;
+        let finalExperience = currentExperience + amount;
 
         if (finalExperience >= expirienceToNextLevel) {
             levelUp();
             finalExperience -= expirienceToNextLevel;
         }
-        setCurrentExpirience(finalExperience);
+        setCurrentExperience(finalExperience);
         setActiveChallenge(null);
         setChallengesCompleted(challengesCompleted + 1)
     }
@@ -80,7 +94,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
         <ChallengesContext.Provider
             value={{
                 level,
-                currentExpirience,
+                currentExperience,
                 challengesCompleted,
                 activeChallenge,
                 expirienceToNextLevel,
