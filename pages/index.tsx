@@ -16,8 +16,9 @@ interface HomeProps {
   challengesCompleted: number
 }
 
+import { getSession } from 'next-auth/client'
+
 export default function Home(props: HomeProps) {
-  console.log(props)
 
   return (
     <ChallengesProvider
@@ -48,13 +49,23 @@ export default function Home(props: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { level, currentExperience, challengesCompleted } = ctx.req.cookies;
+  const { level = 3, currentExperience = 0, challengesCompleted = 0 } = ctx.req.cookies;
+  const session = await getSession({ ctx })
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
 
   return {
     props: {
-      level: Number(level), 
-      currentExperience: Number(currentExperience), 
-      challengesCompleted: Number(challengesCompleted)
+      level: Number(level),
+      currentExperience: Number(currentExperience),
+      challengesCompleted: Number(challengesCompleted),
     }
   }
 }
