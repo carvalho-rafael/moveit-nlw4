@@ -1,0 +1,50 @@
+.loginContainer {
+    display: flex;
+    height: 100vh;
+    flex-wrap: wrap;
+
+    > div {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .formContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 300px;
+        padding: 2rem 0;
+
+        text-align: center;
+    }
+
+    .leftPanel {
+        background: #222;
+    }
+    .formPanel {
+        button {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 1rem;
+            margin-bottom: .5rem;
+            color: #fff;
+            background: #222;
+
+            font-weight: bold;
+            font-size: 14px;
+
+
+            img {
+                width: 2rem;
+                margin-left: 1rem;
+            }
+        }
+    }
+}

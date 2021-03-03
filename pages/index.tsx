@@ -1,19 +1,29 @@
+import { GetServerSideProps } from 'next'
+
 import Head from 'next/head'
+
 import ChallengeBox from '../components/ChallengeBox'
 import CompletedChallenges from '../components/CompletedChallenges'
 import Countdown from '../components/Countdown'
 import ExperienceBar from '../components/ExperienceBar'
 import Profile from '../components/Profile'
+
 import { CountdownProvider } from '../contexts/CountdownContext'
+import { ChallengesProvider } from '../contexts/ChallengesContext'
+
 import styles from '../styles/Home.module.scss'
 
-import { GetServerSideProps } from 'next'
-import { ChallengesProvider } from '../contexts/ChallengesContext'
+interface User {
+  email: string,
+  name: string,
+  image: string
+}
 
 interface HomeProps {
   level: number,
   currentExperience: number,
-  challengesCompleted: number
+  challengesCompleted: number,
+  user: User
 }
 
 import { getSession } from 'next-auth/client'
@@ -28,13 +38,13 @@ export default function Home(props: HomeProps) {
     >
       <div className={styles.container}>
         <Head>
-          <title>Move It</title>
+          <title>move.it</title>
         </Head>
         <ExperienceBar />
         <CountdownProvider>
           <section>
             <div>
-              <Profile />
+              <Profile user={props.user} />
               <CompletedChallenges />
               <Countdown />
             </div>
@@ -66,6 +76,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       level: Number(level),
       currentExperience: Number(currentExperience),
       challengesCompleted: Number(challengesCompleted),
+      user: session.user
     }
   }
 }
