@@ -16,7 +16,7 @@
         background: #fff;
         box-shadow: 0 0 60px rgba(0, 0, 0, 0.05);
         border-radius: 5px;
-        font-size: 8.5rem;
+        font-size: 6.5rem;
         text-align: center;
 
         span {
@@ -76,5 +76,13 @@
     img {
         width: 2rem;
         margin-left: 1rem;
+    }
+}
+
+@media(min-width: 480px) {
+    .countdownContainer {
+        > div {
+            font-size: 8.5rem;
+        }
     }
 }

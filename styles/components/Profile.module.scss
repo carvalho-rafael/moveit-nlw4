@@ -1,6 +1,7 @@
 .profileContainer {
     display: flex;
     align-items: center;
+    flex-direction: column;
 
     img {
         width: 5.5rem;
@@ -19,12 +20,18 @@
 
         p {
             font-size: 1rem;
-            margin-top: .5rem;
+            margin-top: 0.5rem;
             img {
                 width: 1rem;
                 height: auto;
-                margin-right: .5rem;
+                margin-right: 0.5rem;
             }
         }
+    }
+}
+
+@media (min-width: 480px) {
+    .profileContainer {
+        flex-direction: row;
     }
 }
