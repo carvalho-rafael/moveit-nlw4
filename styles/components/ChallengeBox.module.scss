@@ -7,10 +7,13 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
-    background: white;
+    background: #fff;
     border: 1px #d7d8da solid;
-    box-shadow: 0 0 60x rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.05);
+
+    &.dark {
+        background: #444444;
+    }
 }
 
 .challengeNotActive {
@@ -40,7 +43,11 @@
     }
 }
 
-.challengeActive  {
+.dark .challengeActive header {
+    color: white;
+}
+
+.challengeActive {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -53,7 +60,7 @@
         border-bottom: 1px solid gray;
     }
 
-    main{
+    main {
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -102,7 +109,6 @@
             &.succeededBtn {
                 background: green;
             }
-            
         }
     }
 }

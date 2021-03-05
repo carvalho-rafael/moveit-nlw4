@@ -4,6 +4,12 @@ body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   background: $background;
+  transition: all .5s linear;
+}
+
+body.dark-mode {
+  background: $background-dark;
+  color: white;
 }
 
 body,button {

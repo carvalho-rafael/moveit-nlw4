@@ -4,6 +4,7 @@ import { ChallengesContext } from '../contexts/ChallengesContext';
 import { useEffect, useState } from 'react'
 import styles from '../styles/components/Countdown.module.scss'
 import { CountdownContext } from '../contexts/CountdownContext';
+import { ThemeContext } from '../contexts/ThemeContext';
 
 let countdownTimeout: NodeJS.Timeout;
 
@@ -16,6 +17,8 @@ export default function Countdown() {
         resetCountdown,
         startCountdown
     } = useContext(CountdownContext);
+
+    const { dark } = useContext(ThemeContext);
     
     const [minuteLeft, minuteRight] = String(minutes).padStart(2, '0').split('');
     const [secondLeft, secondRight] = String(seconds).padStart(2, '0').split('');
@@ -23,7 +26,7 @@ export default function Countdown() {
 
     return (
         <div>
-            <div className={styles.countdownContainer}>
+            <div className={`${styles.countdownContainer} ${dark ? styles.dark: ''}`}>
                 <div>
                     <span>{minuteLeft}</span>
                     <span>{minuteRight}</span>

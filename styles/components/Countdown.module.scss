@@ -32,6 +32,17 @@
     }
 }
 
+.dark {
+    > div {
+        background: #444444;
+        span:first-child {
+            border-right: 1px solid #777;
+        }
+        span:last-child {
+            border-left: 1px solid #777;
+        }    }
+}
+
 @mixin countdownBtn {
     width: 100%;
     height: 5rem;
@@ -56,7 +67,7 @@
 
     &:hover {
         background: darkblue;
-        transition:  background-color .2s;
+        transition: background-color 0.2s;
     }
 }
 .stopCountdownBtn {
@@ -64,8 +75,8 @@
     background: red;
     &:hover {
         background: darkred;
-        transition:  background-color .2s;
-    }    
+        transition: background-color 0.2s;
+    }
 }
 .finishedCountdownBtn {
     @include countdownBtn;
@@ -79,7 +90,7 @@
     }
 }
 
-@media(min-width: 480px) {
+@media (min-width: 480px) {
     .countdownContainer {
         > div {
             font-size: 8.5rem;
