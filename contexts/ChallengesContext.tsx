@@ -24,7 +24,8 @@ interface ChallengesProviderProps {
     children: ReactNode;
     level: number,
     currentExperience: number,
-    challengesCompleted: number
+    challengesCompleted: number,
+    profileId: number
 }
 
 export const ChallengesContext = createContext({} as ChallengesContextData);
@@ -34,6 +35,7 @@ export function ChallengesProvider({ children, ...rest }: ChallengesProviderProp
     const [currentExperience, setCurrentExperience] = useState(rest.currentExperience);
     const [challengesCompleted, setChallengesCompleted] = useState(rest.challengesCompleted);
     const [activeChallenge, setActiveChallenge] = useState<Challenge>(null);
+    const [profileId, setProfileId] = useState(rest.profileId);
 
     const expirienceToNextLevel = Math.pow((level + 1) * 4, 2);
 
@@ -72,22 +74,34 @@ export function ChallengesProvider({ children, ...rest }: ChallengesProviderProp
         setActiveChallenge(null);
     }
 
-    function completeChallenge() {
+    async function completeChallenge() {
         if (!activeChallenge) {
             return;
         }
 
         const { amount } = activeChallenge;
 
-        let finalExperience = currentExperience + amount;
+        let newCurrentExperience = currentExperience + amount;
 
-        if (finalExperience >= expirienceToNextLevel) {
+        if (newCurrentExperience >= expirienceToNextLevel) {
             levelUp();
-            finalExperience -= expirienceToNextLevel;
+            newCurrentExperience -= expirienceToNextLevel;
         }
-        setCurrentExperience(finalExperience);
+        setCurrentExperience(newCurrentExperience);
         setActiveChallenge(null);
-        setChallengesCompleted(challengesCompleted + 1)
+        const newChallengesCompleted = challengesCompleted +1;
+        setChallengesCompleted(newChallengesCompleted)
+
+        try {
+            const body = { level, newChallengesCompleted, newCurrentExperience, profileId }
+            await fetch('/api/profile', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            })
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (

@@ -24,10 +24,12 @@ interface HomeProps {
   level: number,
   currentExperience: number,
   challengesCompleted: number,
+  profileId: number,
   user: User
 }
 
 import { getSession } from 'next-auth/client'
+import prisma from '../lib/prisma'
 
 export default function Home(props: HomeProps) {
 
@@ -37,6 +39,7 @@ export default function Home(props: HomeProps) {
         level={props.level}
         currentExperience={props.currentExperience}
         challengesCompleted={props.challengesCompleted}
+        profileId={props.profileId}
       >
         <div className={styles.container}>
           <Head>
@@ -62,7 +65,8 @@ export default function Home(props: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { level = 1, currentExperience = 0, challengesCompleted = 0 } = ctx.req.cookies;
+  /*   const { level = 1, currentExperience = 0, challengesCompleted = 0 } = ctx.req.cookies;
+   */
   const session = await getSession({ ctx })
 
   if (!session) {
@@ -74,11 +78,33 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
+  let profile = await prisma.profile.findFirst({
+    where: {
+      user: { email: session.user.email },
+    }
+  })
+
+  if (!profile) {
+    const profileData = {
+      challengesCompleted: 0,
+      currentExperience: 0,
+      level: 1
+    }
+    await prisma.profile.create({
+      data: { ...profileData, user: { connect: { email: session.user.email } } }
+    })
+
+    profile = { ...profile, ...profileData }
+  }
+
+  const { id, level, challengesCompleted, currentExperience } = profile;
+
   return {
     props: {
       level: Number(level),
       currentExperience: Number(currentExperience),
       challengesCompleted: Number(challengesCompleted),
+      profileId: Number(id),
       user: session.user
     }
   }
