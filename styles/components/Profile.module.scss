@@ -30,6 +30,13 @@
     }
 }
 
+.settingsContainer {
+    display: flex;
+    button {
+        margin-right: 1rem;
+    }
+}
+
 @media (min-width: 480px) {
     .profileContainer {
         flex-direction: row;

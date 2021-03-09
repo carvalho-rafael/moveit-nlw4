@@ -33,54 +33,56 @@ export default function Profile(props: ProfileProps) {
             <div>
                 <strong>{props.user.name}</strong> <br />
                 <span>{props.user.email}</span> <br />
-                <button onClick={() => signOut()}>Sign out</button>
                 <p>
                     <img src="icons/level.svg" alt="level" />
                     Level {level}
                 </p>
-                <label>
-                    <Switch
-                        onChange={handleChange}
-                        checked={checked}
-                        uncheckedIcon={false}
-                        checkedIcon={false}
-                        handleDiameter={30}
-                        height={20}
-                        width={40}
-                        offHandleColor="#ffffff"
-                        onHandleColor="#000000"
-                        onColor={'#000000'}
-                        offColor={'#ffffff'}
-                        checkedHandleIcon={
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    height: "100%",
-                                    color: "white",
-                                    fontSize: 18
-                                }}
-                            >
-                                <FiMoon />
-                            </div>
-                        }
-                        uncheckedHandleIcon={
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    height: "100%",
-                                    color: "yellow",
-                                    fontSize: 18
-                                }}
-                            >
-                                <FiSun />
-                            </div>
-                        }
-                    />
-                </label> <br />
+                <div className={styles.settingsContainer}>
+                    <button onClick={() => signOut()}>Sign out</button>
+                    <label>
+                        <Switch
+                            onChange={handleChange}
+                            checked={checked}
+                            uncheckedIcon={false}
+                            checkedIcon={false}
+                            handleDiameter={30}
+                            height={20}
+                            width={40}
+                            offHandleColor="#ffffff"
+                            onHandleColor="#000000"
+                            onColor={'#000000'}
+                            offColor={'#ffffff'}
+                            checkedHandleIcon={
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        height: "100%",
+                                        color: "white",
+                                        fontSize: 18
+                                    }}
+                                >
+                                    <FiMoon />
+                                </div>
+                            }
+                            uncheckedHandleIcon={
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        height: "100%",
+                                        color: "yellow",
+                                        fontSize: 18
+                                    }}
+                                >
+                                    <FiSun />
+                                </div>
+                            }
+                        />
+                    </label>
+                </div>
             </div>
         </div>
     )
